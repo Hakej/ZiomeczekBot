@@ -37,4 +37,15 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
+var minutesSpentRunning = 0;
+
+function countAndLogMinutesSpentRunning() {
+	minutesSpentRunning += 1
+	console.log(`Running for ${minutesSpentRunning} minutes.`)
+}
+
+setTimeout(function() {
+	setInterval(countAndLogMinutesSpentRunning, 60000)
+})
+
 client.login(process.env.token);

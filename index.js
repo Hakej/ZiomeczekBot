@@ -3,6 +3,8 @@ const path = require('node:path');
 const { Client, Collection, Intents } = require('discord.js');
 require('dotenv').config()
 
+
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.commands = new Collection();
@@ -12,7 +14,7 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
-    console.log(`Read command "${command.data.name}".`);
+	console.log(`Read command "${command.data.name}".`);
 	// Set a new item in the Collection
 	// With the key as the command name and the value as the exported module
 	client.commands.set(command.data.name, command);
@@ -49,3 +51,17 @@ setTimeout(function() {
 })
 
 client.login(process.env.token);
+
+function purgeCommands() {
+    const guildId = process.env.guildId;
+    const guild = client.guilds.cache.get(guildId);
+
+    console.log('Purging commands...');
+
+    // This takes ~0 hour to update
+    client.application.commands.set([]);
+    // This updates immediately
+    guild.commands.set([]);
+
+    console.log('Finished purging commands.');
+}

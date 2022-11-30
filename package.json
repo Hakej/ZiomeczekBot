@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/netlify-lambda serve src",
-    "build": "./node_modules/.bin/netlify-lambda build src"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +14,6 @@
     "@discordjs/rest": "^0.5.0",
     "discord-api-types": "^0.36.2",
     "discord.js": "^13.8.1",
-    "dotenv": "^16.0.3",
-    "netlify-lambda": "^2.0.15"
+    "dotenv": "^16.0.3"
   }
 }

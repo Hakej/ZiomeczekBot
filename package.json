@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/netlify-lambda serve src",
-    "build": "./node_modules/.bin/netlify-lambda build src",
-    "netlify": "rm -rf dist && mkdir dist && rsync -rv * dist --exclude ./dist"
+    "build": "./node_modules/.bin/netlify-lambda build src"
   },
   "keywords": [],
   "author": "",

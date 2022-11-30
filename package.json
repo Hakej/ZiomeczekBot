@@ -17,10 +17,5 @@
     "discord.js": "^13.8.1",
     "dotenv": "^16.0.3",
     "netlify-lambda": "^2.0.15"
-  },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "os": false
   }
 }

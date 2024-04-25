@@ -1,9 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Intents } = require('discord.js');
+const { executeCommand } = require('./executeCommand');
 require('dotenv').config()
-
-
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -21,7 +20,9 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log("Ziomeczek is ready!");
+
+	setStatus();
 });
 
 client.on('interactionCreate', async interaction => {
@@ -39,29 +40,49 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-var minutesSpentRunning = 0;
+async function setStatus() {
+	/*
+	const currentTemp = await getCurrentTemp();
+	const status = `${currentTemp}`;
+	*/
+	/*
+	const currentIp = await getExternalIp();
+	const status = `${currentIp}`;
+	*/
 
-function countAndLogMinutesSpentRunning() {
-	minutesSpentRunning += 1
-	console.log(`Running for ${minutesSpentRunning} minutes.`)
+	const status = "hakej.ddns.net";
+
+	client.user.setPresence({
+		status: 'online',
+		activities: 
+			[{
+				name: status,
+				type: 1, // There is ActiveTypes enum but for some reason this module won't work for me
+				url: `http://${status}`
+			}]
+	})
 }
 
 setTimeout(function() {
-	setInterval(countAndLogMinutesSpentRunning, 60000)
+	setInterval(setStatus, 60000)
 })
 
-client.login(process.env.token);
-
-function purgeCommands() {
-    const guildId = process.env.guildId;
-    const guild = client.guilds.cache.get(guildId);
-
-    console.log('Purging commands...');
-
-    // This takes ~0 hour to update
-    client.application.commands.set([]);
-    // This updates immediately
-    guild.commands.set([]);
-
-    console.log('Finished purging commands.');
+async function getCurrentTemp() {
+	try {
+		const temp = await executeCommand("/usr/bin/vcgencmd measure_temp");
+		return temp;
+	} catch(e) {
+		return "69°";
+	}
 }
+
+async function getExternalIp() {
+	try {
+		const ip = await executeCommand("curl icanhazip.com");
+		return ip;
+	} catch(e) {
+		return "0.0.0.0"
+	}
+}
+
+client.login(process.env.token);

@@ -19,11 +19,13 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
+const twitchUrl = "https://www.twitch.tv/hakej37";
+const pingujStreamkaRoleId = "1233023903836934206";
+const pingujStreamkaChannelId = "1233023855673479199";
+const cyfrowyAfganistanId = "1233197213509881878";
+
 client.once('ready', () => {
 	console.log("BOTej37 is ready!");
-
-	//const guild = client.guilds.cache.get(process.env.guildId);
-	//guild.commands.set([]);
 
 	setStatus();
 });
@@ -44,22 +46,43 @@ client.on('interactionCreate', async interaction => {
 });
 
 async function setStatus() {
-	const status = "twitch.tv/hakej37";
+	const status = "https://twitch.tv/hakej37";
 
 	client.user.setPresence({
 		status: 'online',
 		activities: 
 			[{
 				name: status,
-				type: 1, // There is ActiveTypes enum but for some reason this module won't work for me
-				url: `http://${status}`
+				type: 1, 
+				url: `${status}`
 			}]
 	})
 }
 
-setTimeout(function() {
-	setInterval(setStatus, 60000)
-})
+var isStreaming = true;
 
+async function checkIfStreaming() {
+	const response = await fetch("https://api.twitch.tv/helix/streams?user_id=111935077", {
+		method: 'GET',
+		headers: {
+			'Client-ID': process.env.TWITCH_BOTEJ_CLIENT_ID,
+			'Authorization': 'Bearer ' + process.env.TWITCH_BOTEJ_CLIENT_OAUTH
+		}
+	});
+
+	var stream = await response.json();
+	var wasStreaming = isStreaming;
+	isStreaming = stream.data.length > 0;
+
+	if (wasStreaming != isStreaming && isStreaming) 
+	{
+		client.channels.fetch(pingujStreamkaChannelId)
+		.then(channel => {
+			channel.send(`<@&${pingujStreamkaRoleId}> ten leniuch odpalił streamka, wbijajta! -> ${twitchUrl}`);
+		})
+	}
+}
+
+setInterval(checkIfStreaming, 60 * 1000);
 
 client.login(process.env.token);

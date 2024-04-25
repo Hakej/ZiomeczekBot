@@ -20,7 +20,10 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	console.log("Ziomeczek is ready!");
+	console.log("BOTej37 is ready!");
+
+	//const guild = client.guilds.cache.get(process.env.guildId);
+	//guild.commands.set([]);
 
 	setStatus();
 });
@@ -41,16 +44,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 async function setStatus() {
-	/*
-	const currentTemp = await getCurrentTemp();
-	const status = `${currentTemp}`;
-	*/
-	/*
-	const currentIp = await getExternalIp();
-	const status = `${currentIp}`;
-	*/
-
-	const status = "hakej.ddns.net";
+	const status = "twitch.tv/hakej37";
 
 	client.user.setPresence({
 		status: 'online',
@@ -67,22 +61,5 @@ setTimeout(function() {
 	setInterval(setStatus, 60000)
 })
 
-async function getCurrentTemp() {
-	try {
-		const temp = await executeCommand("/usr/bin/vcgencmd measure_temp");
-		return temp;
-	} catch(e) {
-		return "69°";
-	}
-}
-
-async function getExternalIp() {
-	try {
-		const ip = await executeCommand("curl icanhazip.com");
-		return ip;
-	} catch(e) {
-		return "0.0.0.0"
-	}
-}
 
 client.login(process.env.token);

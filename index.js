@@ -24,6 +24,9 @@ const pingujStreamkaRoleId = "1233023903836934206";
 const pingujStreamkaChannelId = "1233023855673479199";
 const cyfrowyAfganistanId = "1233197213509881878";
 
+const youtubeChecker = require('./youtube-checker');
+youtubeChecker(client);
+
 client.once('ready', () => {
 	console.log("BOTej37 is ready!");
 

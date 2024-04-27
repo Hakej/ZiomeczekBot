@@ -1,10 +1,16 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { executeCommand } = require('./executeCommand');
 require('dotenv').config()
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.MessageContent,
+	GatewayIntentBits.GuildMembers,
+],
+});
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
@@ -87,5 +93,10 @@ async function checkIfStreaming() {
 }
 
 setInterval(checkIfStreaming, 60 * 1000);
+
+function sendRulesMessage() {
+	const sendRulesMessage = require('./functions/sendRulesMessage');
+	sendRulesMessage(client);
+}
 
 client.login(process.env.token);

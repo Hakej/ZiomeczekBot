@@ -1,3 +1,3 @@
 #!/bin/bash
-node deploy-commands.js
+node deploy-commands-global.js
 node index.js

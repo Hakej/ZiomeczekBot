@@ -81,7 +81,7 @@ async function checkIfStreaming() {
 
 	var stream = await response.json();
 	var wasStreaming = isStreaming;
-	isStreaming = stream.data.length > 0;
+	isStreaming = stream.data?.length > 0;
 
 	if (wasStreaming != isStreaming && isStreaming) 
 	{
